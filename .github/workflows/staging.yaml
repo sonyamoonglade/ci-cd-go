@@ -22,7 +22,6 @@ jobs:
     build:
       runs-on: ubuntu-20.04
       needs: tests
-
       steps:
         - name: "Build App Image"
           run: "docker build -f ./../../docker/Dockerfile -t sonyamoonglade/ci_cd_app:latest" .
@@ -41,6 +40,8 @@ jobs:
 
       steps:
         - uses: actions/checkout@v3
+        - name: "clone docker-compose file to action runner"
+          run: git clone "https://${{ secrets.GIT_ACCEESS_KEY }}@github.com/sonyamoonglade/ci-cd-go-deployment.git ."
 
         - name: "copy files with scp"
           uses: appleboy/scp-action@master
@@ -48,7 +49,7 @@ jobs:
             host: ${{ secrets.VM_HOST }}
             username: ${{ secrets.VM_USER }}
             key: ${{ secrets.VM_SSH }}
-            source: "migrations/,../ci_cd_deployment/docker-compose.yaml,./setup.sh"
+            source: "migrations/,./docker-compose.yaml,./setup.sh"
             target: "."
             passphrase: ${{ secrets.VM_SSH_PASSPHRASE }}
             strip_components: 1
