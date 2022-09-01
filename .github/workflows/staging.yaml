@@ -23,8 +23,8 @@ jobs:
       runs-on: ubuntu-latest
       needs: tests
       steps:
-        - name: "ls test"
-          run: ls ./docker
+        - uses: actions/checkout@v3
+
         - name: "Build App Image"
           run: docker build -f ./docker/Dockerfile -t sonyamoonglade/ci_cd_app:latest .
 
