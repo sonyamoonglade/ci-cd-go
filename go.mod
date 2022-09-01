@@ -1,4 +1,4 @@
-module gihub.com/sonyamoonglade/ci-cd-golang
+module gihub.com/sonyamoonglade/ci-cd-go
 
 go 1.18
 
