@@ -30,7 +30,7 @@ jobs:
           run: docker build -f ./docker/Dockerfile -t sonyamoonglade/ci_cd_app:latest .
 
         - name: "login to docker hub"
-          run: echo $"{{ secrets.DOCKER_HUB_PASSWORD }}" | docker login --password-stdin --username sonyamoonglade
+          run: echo ${{ secrets.DOCKER_HUB_PASSWORD }} | docker login --password-stdin --username sonyamoonglade
 
         - name: "push recently built image to registry"
           run: docker push sonyamoonglade/ci_cd_app:latest
