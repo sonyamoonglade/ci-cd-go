@@ -18,7 +18,6 @@ jobs:
 
        - name: "run unit tests"
          run: "go test ./..."
-
     build:
       runs-on: ubuntu-20.04
       needs: tests
@@ -31,10 +30,8 @@ jobs:
 
         - name: "push recently built image to registry"
           run: "docker push sonyamoonglade/ci_cd_app:latest"
-
-
     deploy:
-      environment: stage
+      environment: "stage"
       runs-on: ubuntu-20.04
 
       steps:
