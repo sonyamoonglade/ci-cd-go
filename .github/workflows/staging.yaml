@@ -53,6 +53,7 @@ jobs:
           env:
             VM_USER: ${{ secrets.VM_USER }}
             VM_HOST: ${{ secrets.VM_HOST }}
+            VM_SSH: ${{ secrets.VM_SSH }}
           run: chmod +x ./scp.sh && ./scp.sh
 
 
