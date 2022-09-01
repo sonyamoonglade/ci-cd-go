@@ -13,5 +13,5 @@ func ValidateEmail(v string) bool {
 		c++
 	}
 
-	return c == 2
+	return c == 1
 }
