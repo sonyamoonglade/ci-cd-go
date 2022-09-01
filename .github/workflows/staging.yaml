@@ -1,7 +1,7 @@
 name: Staging CI
 on:
   push:
-    branches: [ stage]
+    branches: [ stage ]
 
 jobs:
   # Checkout and install golang
@@ -37,7 +37,7 @@ jobs:
 
     deploy:
       runs-on: ubuntu-latest
-      environment: "stage"
+      environment: stage
       needs: build
       steps:
         - uses: actions/checkout@v3
