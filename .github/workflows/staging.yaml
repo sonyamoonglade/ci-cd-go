@@ -40,9 +40,11 @@ jobs:
       environment: stage
       needs: build
       steps:
-        - uses: actions/checkout@v3
+
         - name: "clone docker-compose file to action runner"
           run: git clone "https://${{ secrets.GIT_ACCEESS_KEY }}@github.com/sonyamoonglade/ci-cd-go-deployment" .
+
+        - uses: actions/checkout@v3
 
         - name: "copy files with scp"
           uses: appleboy/scp-action@master
