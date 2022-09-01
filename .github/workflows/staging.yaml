@@ -23,6 +23,8 @@ jobs:
       runs-on: ubuntu-20.04
       needs: tests
       steps:
+        - name: "ls test"
+          run: ls && ls .. && ls -la
         - name: "Build App Image"
           run: docker build -f ./docker/Dockerfile -t sonyamoonglade/ci_cd_app:latest .
 
