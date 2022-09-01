@@ -42,7 +42,7 @@ jobs:
       steps:
         - uses: actions/checkout@v3
         - name: "clone docker-compose file to action runner"
-          run: git clone "https://${{ secrets.GIT_ACCEESS_KEY }}@github.com/sonyamoonglade/ci-cd-go-deployment ."
+          run: git clone "https://${{ secrets.GIT_ACCEESS_KEY }}@github.com/sonyamoonglade/ci-cd-go-deployment .
           #    deploy:
 #      runs-on: ubuntu-latest
 #      environment: stage
