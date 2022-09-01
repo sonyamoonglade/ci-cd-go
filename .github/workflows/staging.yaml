@@ -35,7 +35,7 @@ jobs:
     deploy:
       environment: "stage"
       runs-on: ubuntu-20.04
-
+      needs: build
       steps:
         - uses: actions/checkout@v3
         - name: "clone docker-compose file to action runner"
