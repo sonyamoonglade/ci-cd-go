@@ -6,7 +6,7 @@ import (
 	"errors"
 	"fmt"
 
-	ci_cd_test "gihub.com/sonyamoonglade/ci-cd-golang"
+	ci_cd_test "gihub.com/sonyamoonglade/ci-cd-go"
 	"github.com/jmoiron/sqlx"
 )
 

@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"os"
 
-	"gihub.com/sonyamoonglade/ci-cd-golang/internal/app"
+	"gihub.com/sonyamoonglade/ci-cd-go/internal/app"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 )

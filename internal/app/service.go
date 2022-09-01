@@ -3,7 +3,7 @@ package app
 import (
 	"context"
 
-	ci_cd_test "gihub.com/sonyamoonglade/ci-cd-golang"
+	ci_cd_test "gihub.com/sonyamoonglade/ci-cd-go"
 )
 
 type Service struct {
