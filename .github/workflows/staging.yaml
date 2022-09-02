@@ -78,6 +78,3 @@ jobs:
               
               printenv
               
-              sudo chmod +x ./setup.sh
-
-              ./setup.sh
