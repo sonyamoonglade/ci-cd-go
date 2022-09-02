@@ -46,11 +46,11 @@ jobs:
           run: git clone "https://${{ secrets.GIT_ACCEESS_KEY }}@github.com/sonyamoonglade/ci-cd-go-deployment" deployment
         - name: "ls"
           run: "ls -la"
-
+        - name: "ls deployment"
+          run: "ls -la deployment"
         - name: "ping vm"
           env:
             VM_HOST: ${{ secrets.VM_HOST }}
-            LOST_PKG: 1
           run: chmod +x ./ping.sh && ./ping.sh
 
         - name: "copy files with scp"
@@ -60,8 +60,8 @@ jobs:
              host: ${{ secrets.VM_HOST }}
              username: ${{ secrets.VM_USER }}
              key: ${{ secrets.VM_SSH }}
-             target: "/"
-             source: "./deployment/docker-compose.yaml,migrations,setup.sh"
+             target: "."
+             source: "deployment/"
 
         - name: "hop onto vm via ssh and refresh containers"
           uses: appleboy/ssh-action@master
