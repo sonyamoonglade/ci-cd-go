@@ -40,12 +40,10 @@ jobs:
       environment: "stage"
       needs: build
       steps:
-
-        - name: "clone docker-compose file to action runner"
-          run: git clone "https://${{ secrets.GIT_ACCEESS_KEY }}@github.com/sonyamoonglade/ci-cd-go-deployment" .
-
         - uses: actions/checkout@v3
 
+        - name: "clone docker-compose file to action runner"
+          run: git clone "https://${{ secrets.GIT_ACCEESS_KEY }}@github.com/sonyamoonglade/ci-cd-go-deployment" deployment
         - name: "ls"
           run: "ls -la"
 
@@ -63,7 +61,7 @@ jobs:
              username: ${{ secrets.VM_USER }}
              key: ${{ secrets.VM_SSH }}
              target: "/"
-             source: "docker-compose.yaml,migrations,setup.sh"
+             source: "./deployment/docker-compose.yaml,migrations,setup.sh"
 
         - name: "hop onto vm via ssh and refresh containers"
           uses: appleboy/ssh-action@master

@@ -6,7 +6,7 @@ COPY . .
 
 RUN CGO_ENABLED=0 GOOS=linux go build -o ./bin/main ./cmd/main.go
 
-FROM alpine:latest as prod
+FROM alpine:3.16 as prod
 
 WORKDIR /app
 
