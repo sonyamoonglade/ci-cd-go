@@ -11,12 +11,6 @@ fi
 
 rm ./result
 
-foo=$VM_HOST
-
-for (( i=0; i<${#foo}; i++ )); do
-  echo "${foo:$i:1}"
-done
-
 echo $LOST
 
 export LOST_PKG=$LOST
