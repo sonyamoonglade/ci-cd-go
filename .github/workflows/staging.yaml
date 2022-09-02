@@ -62,18 +62,22 @@ jobs:
 
         - name: "hop onto vm via ssh and refresh containers"
           uses: appleboy/ssh-action@master
+          env:
+            DB_PWD: ${{ secrets.DB_PWD }}
           with:
             host: ${{ secrets.VM_HOST }}
             username: ${{ secrets.VM_USER }}
             key: ${{ secrets.VM_SSH }}
             script: |
-              export DB_PWD="${{ secrets.DB_PWD }}"
+              export DB_PWD=${{ env.DB_PWD }}
               export DB_HOST="${{ secrets.DB_HOST }}"
               export DB_USER="${{ secrets.DB_USER }}"
               export DB_PORT="${{ secrets.DB_PORT }}"
               export DB_NAME="${{ secrets.DB_NAME }}"
               export DATABASE_URL="${{ secrets.DATABASE_URL }}"
-
+              
+              printenv
+              
               sudo chmod +x ./setup.sh
 
               ./setup.sh
