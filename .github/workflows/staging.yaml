@@ -70,7 +70,6 @@ jobs:
             username: ${{ secrets.VM_USER }}
             key: ${{ secrets.VM_SSH }}
             script: |
-              
               sudo docker-compose -f ./deployment/docker-compose.yaml down
               sudo docker-compose -f ./deployment/docker-compose.yaml pull sonyamoonglade/ci_cd_app 
               sudo docker-compose -f ./deployment/docker-compose.yaml --env-file ./.env up -d
