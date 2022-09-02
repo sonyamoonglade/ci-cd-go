@@ -49,14 +49,21 @@ jobs:
         - name: "ls"
           run: "ls -la"
 
+        - name: "ping vm"
+          env:
+            VM_HOST: ${{ secrets.VM_HOST }}
+            LOST_PKG: 1
+          run: chmod +x ./ping.sh && ./ping.sh
+
         - name: "copy files with scp"
+          if: ${{env.LOST_PKG == 0}}
           uses: appleboy/scp-action@master
           with:
              host: ${{ secrets.VM_HOST }}
              username: ${{ secrets.VM_USER }}
              key: ${{ secrets.VM_SSH }}
-             target: "./"
-             source: "./docker-compose.yaml,./migrations,./setup.sh"
+             target: "/"
+             source: "docker-compose.yaml,migrations,setup.sh"
 
         - name: "hop onto vm via ssh and refresh containers"
           uses: appleboy/ssh-action@master
