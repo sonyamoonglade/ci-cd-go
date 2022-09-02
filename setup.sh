@@ -1,11 +1,6 @@
+#!/bin/bash
 
-str=$DB_PWD
-
-for((i=0; i<${#str}; i++)); do
-  ch=${str:$i:1}
-  echo $ch
-done
-
+mv ./migrations ./deployment/migrations && \
 sudo docker-compose -f ./deployment/docker-compose.yaml down && \
 sudo docker-compose -f ./deployment/docker-compose.yaml pull sonyamoonglade/ci_cd_app && \
-sudo docker-compose -f ./deployment/docker-compose.yaml up -d
+sudo docker-compose -f ./deployment/docker-compose.yaml --env-file ./.env up -d
