@@ -45,20 +45,23 @@ jobs:
         - name: "clone docker-compose file to action runner"
           run: git clone "https://${{ secrets.GIT_ACCEESS_KEY }}@github.com/sonyamoonglade/ci-cd-go-deployment" deployment
 
-        - name: "ping vm"
-          env:
-            VM_HOST: ${{ secrets.VM_HOST }}
-          run: chmod +x ./ping.sh && ./ping.sh
+        - name: "prepare .env file for docker-compose"
+          run: |
+            echo DB_USER="${{ secrets.DB_USER }}">> .env
+            echo DB_HOST="${{ secrets.DB_HOST }}">> .env
+            echo DB_NAME="${{ secrets.DB_NAME }}">> .env
+            echo DB_PORT="${{ secrets.DB_PORT }}">> .env
+            echo DATABASE_URL="${{ secrets.DATABASE_URL }}">> .env
+            echo DB_PWD="${{ secrets.DB_PWD }}" >> .env
 
         - name: "copy files with scp"
-          if: ${{env.LOST_PKG == 0}}
           uses: appleboy/scp-action@master
           with:
              host: ${{ secrets.VM_HOST }}
              username: ${{ secrets.VM_USER }}
              key: ${{ secrets.VM_SSH }}
              target: "."
-             source: "deployment/,setup.sh,migrations"
+             source: "deployment/,setup.sh,migrations,.env"
 
         - name: "hop onto vm via ssh and refresh containers"
           uses: appleboy/ssh-action@master
