@@ -61,7 +61,7 @@ jobs:
              username: ${{ secrets.VM_USER }}
              key: ${{ secrets.VM_SSH }}
              target: "."
-             source: "deployment/"
+             source: "deployment/,setup.sh,migrations"
 
         - name: "hop onto vm via ssh and refresh containers"
           uses: appleboy/ssh-action@master
