@@ -51,7 +51,7 @@ jobs:
             echo DB_HOST="${{ secrets.DB_HOST }}">> .env
             echo DB_NAME="${{ secrets.DB_NAME }}">> .env
             echo DB_PORT="${{ secrets.DB_PORT }}">> .env
-            echo DATABASE_URL="${{ secrets.DATABASE_URL }}">> .env
+            echo DATABASE_URL="postgres://${{ secrets.DB_USER }}:{{ secrets.DB_PWD }}@${{ secrets.DB_HOST }}:${{ secrets. DB_PORT }}/${{ secrets.DB_NAME }}">> .env
             echo DB_PWD="${{ secrets.DB_PWD }}" >> .env
 
         - name: "copy files with scp"
