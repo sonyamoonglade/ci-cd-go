@@ -13,8 +13,9 @@ rm ./result
 
 foo=$VM_HOST
 
-for ((i=0;i<${#foo};i++));do
+for (( i=0; i<${#foo}; i++ )); do
   echo "${foo:$i:1}"
+done
 
 echo $LOST
 
