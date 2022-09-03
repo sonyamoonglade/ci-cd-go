@@ -20,6 +20,9 @@ func (h *Handler) InitRoutes(handl *http.ServeMux) {
 
 func (h *Handler) root(w http.ResponseWriter, r *http.Request) {
 
+	w.Write([]byte("hello from golang"))
+	return
+
 	user, err := h.service.GetUser(r.Context())
 	if err != nil {
 		w.WriteHeader(500)
