@@ -47,12 +47,12 @@ jobs:
 
         - name: "prepare .env file for docker-compose"
           run: |
-            echo DB_USER="${{ secrets.DB_USER }}">> .env
-            echo DB_HOST="${{ secrets.DB_HOST }}">> .env
-            echo DB_NAME="${{ secrets.DB_NAME }}">> .env
-            echo DB_PORT="${{ secrets.DB_PORT }}">> .env
-            echo DATABASE_URL="postgres://${{ secrets.DB_USER }}:${{ secrets.DB_PWD }}@${{ secrets.DB_HOST }}:${{ secrets. DB_PORT }}/${{ secrets.DB_NAME }}">> .env
+            echo DB_USER="${{ secrets.DB_USER }}" >> .env
+            echo DB_HOST="${{ secrets.DB_HOST }}" >> .env
+            echo DB_NAME="${{ secrets.DB_NAME }}" >> .env
+            echo DB_PORT=${{ secrets.DB_PORT }} >> .env
             echo DB_PWD="${{ secrets.DB_PWD }}" >> .env
+            echo DATABASE_URL="postgres://${{ secrets.DB_USER }}:${{ secrets.DB_PWD }}@${{ secrets.DB_HOST }}:${{ secrets. DB_PORT }}/${{ secrets.DB_NAME }}?sslmode=disable">> .env
 
         - name: "copy files with scp"
           uses: appleboy/scp-action@master
