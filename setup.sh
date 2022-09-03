@@ -1,5 +1,5 @@
 #!/bin/bash
-
+rm -rf ./deployment/migrations && \
 mv ./migrations ./deployment/migrations && \
 sudo docker-compose -f ./deployment/docker-compose.yaml stop && \
 sudo docker pull sonyamoonglade/ci_cd_app && \
