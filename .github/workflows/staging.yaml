@@ -1,0 +1,74 @@
+name: Staging CI
+on:
+  push:
+    branches: [ stage ]
+
+jobs:
+  # Checkout and install golang
+    tests:
+      runs-on: ubuntu-20.04
+      steps:
+       - name: "Checkout code"
+         uses: actions/checkout@v3
+
+       - name: "install golang"
+         uses: actions/setup-go@v3
+         with:
+           go-version: 1.18
+
+       - name: "run unit tests"
+         run: go test ./...
+
+    build:
+      runs-on: ubuntu-latest
+      environment: "stage"
+      needs: tests
+      steps:
+        - uses: actions/checkout@v3
+
+        - name: "Build App Image"
+          run: docker build -f ./docker/Dockerfile -t sonyamoonglade/ci_cd_app:latest .
+
+        - name: "login to docker hub"
+          run: echo ${{ secrets.DOCKER_HUB_PASSWORD }} | docker login --password-stdin --username sonyamoonglade
+
+        - name: "push recently built image to registry"
+          run: docker push sonyamoonglade/ci_cd_app:latest
+
+    remote_deploy:
+      runs-on: ubuntu-latest
+      environment: "stage"
+      needs: build
+      steps:
+        - uses: actions/checkout@v3
+
+        - name: "clone docker-compose file to action runner"
+          run: git clone "https://${{ secrets.GIT_ACCEESS_KEY }}@github.com/sonyamoonglade/ci-cd-go-deployment" deployment
+
+        - name: "prepare .env file for docker-compose"
+          run: |
+            echo DB_USER="${{ secrets.DB_USER }}" >> .env
+            echo DB_HOST="${{ secrets.DB_HOST }}" >> .env
+            echo DB_NAME="${{ secrets.DB_NAME }}" >> .env
+            echo DB_PORT=${{ secrets.DB_PORT }} >> .env
+            echo DB_PWD="${{ secrets.DB_PWD }}" >> .env
+            echo DATABASE_URL="postgres://${{ secrets.DB_USER }}:${{ secrets.DB_PWD }}@${{ secrets.DB_HOST }}:${{ secrets. DB_PORT }}/${{ secrets.DB_NAME }}?sslmode=disable">> .env
+
+        - name: "copy files with scp"
+          uses: appleboy/scp-action@master
+          with:
+             host: ${{ secrets.VM_HOST }}
+             username: ${{ secrets.VM_USER }}
+             key: ${{ secrets.VM_SSH }}
+             target: "."
+             source: "deployment/,setup.sh,migrations,.env"
+
+        - name: "hop onto vm via ssh and refresh containers"
+          uses: appleboy/ssh-action@master
+          with:
+            host: ${{ secrets.VM_HOST }}
+            username: ${{ secrets.VM_USER }}
+            key: ${{ secrets.VM_SSH }}
+            script: |
+              sudo chmod +x ./setup.sh
+              ./setup.sh
